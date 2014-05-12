@@ -11,6 +11,7 @@ class ofxWaveHandler {
 		~ofxWaveHandler() {free(recBuffer);};
 
 		void addSamples(float* input, int numSamples);
+        float getSample(int startSmpl);
 		int clearBuffer();
 		void drawWaveBuffer(float xPos=0, float yPos=0);
 		void drawWaveMesh(float xPos=0, float yPos=0);

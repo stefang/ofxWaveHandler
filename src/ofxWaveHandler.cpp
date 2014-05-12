@@ -106,6 +106,11 @@ void ofxWaveHandler::addSamples(float* input, int numSamples){
 	}
 }
 
+float ofxWaveHandler::getSample(int startSmple){
+    return recBuffer[startSmple];
+}
+
+
 void ofxWaveHandler::updateWaveMesh(int detail, unsigned int startSmpl, int length) {
 	waveMesh.clear();
 	waveMesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
@@ -165,8 +170,8 @@ void ofxWaveHandler::updateWaveBuffer(unsigned int startSmpl, int length) {
     float per = length / waveFormWidth;
 
     for (int i = 0; i < waveFormWidth; ++i) {
-        float h = ((recBuffer[int((i*per)+startSmpl)*channels] * waveFormHeight)*0.5);
-        ofRect(i, waveFormHeight/2 - h, 1, h);
+        float h = abs((recBuffer[int((i*per)+startSmpl)*channels] * waveFormHeight));
+        ofRect(i, waveFormHeight/2 - h, 1, h*2);
 	}
     waveForm.end();
 	isBlocked = false;
