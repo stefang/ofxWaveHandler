@@ -7,7 +7,7 @@
 
 class ofxWaveHandler {
 	public :
-		ofxWaveHandler(ofSoundStream* soundStream=NULL, int minimumSec=1, int width=0, int height=0, int overviewHeight = 0);
+		ofxWaveHandler(ofSoundStream* soundStream=NULL, int minimumSec=1, int width=0, int height=0, int overviewWidth=0, int overviewHeight = 0);
 		~ofxWaveHandler() {free(recBuffer);};
 
 		void addSamples(float* input, int numSamples);
@@ -20,6 +20,7 @@ class ofxWaveHandler {
         void updateOverviewBuffer();
 		void updateWaveMesh(int detail=0, unsigned int startSmpl=0, int length=0);
 		int getBufferLengthSmpls();
+        float getBufferLengthSmplsf();
 		float getBufferLengthSec();
 		int loadBuffer(string fileName, unsigned int startSmpl=0);
 		int saveBuffer(string fileName, int audioFormat= SF_FORMAT_WAV|SF_FORMAT_PCM_16, unsigned int startSmpl=0, unsigned int endSmpl=0);
@@ -37,6 +38,7 @@ class ofxWaveHandler {
 
 		int				waveFormWidth;
 		int				waveFormHeight;
+        int             overviewWidth;
         int             overviewHeight;
 };
 
