@@ -1,6 +1,6 @@
 #include "ofxWaveHandler.h"
 
-ofxWaveHandler::ofxWaveHandler(ofSoundStream* stream, int minimumSec, int width, int height) {
+ofxWaveHandler::ofxWaveHandler(ofSoundStream* stream, int minimumSec, int width, int height, int ovHeight) {
 
 	soundStream = stream;
 	recBuffer=NULL;
@@ -17,7 +17,14 @@ ofxWaveHandler::ofxWaveHandler(ofSoundStream* stream, int minimumSec, int width,
 		waveFormWidth = width;
 		waveFormHeight = height;
 	}
+    if (ovHeight == 0) {
+        overviewHeight = 100;
+    } else {
+        overviewHeight = ovHeight;
+    }
+    
 	waveForm.allocate(waveFormWidth, waveFormHeight);
+	overView.allocate(waveFormWidth, overviewHeight);
 }
 int ofxWaveHandler::loadBuffer(string fileName, unsigned int startSmpl) {
 	if (isBlocked) {
@@ -173,8 +180,40 @@ void ofxWaveHandler::updateWaveBuffer(unsigned int startSmpl, int length) {
         float h = abs((recBuffer[int((i*per)+startSmpl)*channels] * waveFormHeight));
         ofRect(i, waveFormHeight/2 - h, 1, h*2);
 	}
-    waveForm.end();
 	isBlocked = false;
+    waveForm.end();
+}
+
+void ofxWaveHandler::updateOverviewBuffer() {
+    
+    unsigned int startSmpl = 0;
+    int length = getBufferLengthSmpls();
+	overView.begin();
+    ofSetColor(150,150,150);
+	ofRect(0, 0, waveFormWidth, overviewHeight);
+	
+	if (recBuffer == NULL || isBlocked) {
+		waveForm.end();
+		return;
+	}
+	isBlocked = true;
+    ofSetColor(255,255,255);
+    
+	int channels = soundStream->getNumInputChannels();
+	
+	// calculate and constraint the start and end point of the buffer to draw...
+	if (length==0) length = (recPointer/channels);
+	if (startSmpl*channels >= recPointer) startSmpl=recPointer-channels;
+	if ((startSmpl+length)*channels>recPointer) length = (recPointer/channels)-startSmpl;
+    
+    float per = length / waveFormWidth;
+    
+    for (int i = 0; i < waveFormWidth; ++i) {
+        float h = abs((recBuffer[int((i*per)+startSmpl)*channels] * overviewHeight));
+        ofRect(i, overviewHeight/2 - h, 1, h*2);
+	}
+	isBlocked = false;
+    overView.end();
 }
 
 void ofxWaveHandler::drawWaveMesh(float xPos, float yPos) {
@@ -190,7 +229,18 @@ void ofxWaveHandler::drawWaveBuffer(float xPos, float yPos) {
 	ofSetColor(150,0,0);
 	ofRect(xPos-5, yPos-5, waveFormWidth+10, waveFormHeight+10);
 	ofSetColor(255);
-	if (recPointer > 0) waveForm.draw(xPos,yPos);	
+	if (recPointer > 0) {
+        waveForm.draw(xPos,yPos);
+    };
+}
+
+void ofxWaveHandler::drawOverviewBuffer(float xPos, float yPos) {
+	ofSetColor(150,0,0);
+	ofRect(xPos-5, yPos-5, waveFormWidth+10, overviewHeight+10);
+	ofSetColor(255);
+	if (recPointer > 0) {
+        overView.draw(xPos,yPos);
+    };
 }
 
 int ofxWaveHandler::getBufferLengthSmpls() {

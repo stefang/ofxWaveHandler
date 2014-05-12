@@ -1,5 +1,9 @@
 .DS_Store
 example/bin/*
+example-playback/bin/*
 example/DerivedData/*
+example-playback/DerivedData/*
 example/WaveHandlerExample.xcodeproj/project.xcworkspace/*
+example-playback/example-playback.xcodeproj/project.xcworkspace/*
 example/WaveHandlerExample.xcodeproj/xcuserdata/*
+example-playback/example-playback.xcodeproj/xcuserdata/*
