@@ -1,0 +1,24 @@
+<install>
+	<name>ofxWaveHandler</name>
+	<version>0.01</version>
+	<author>Attila Fodor on 07/05/2014 - kevin@finecutbodies.com</author>
+	<url></url>
+	<add>
+		<src>
+			<folder name="addons/ofxWaveHandler/src">
+				<file>../../../addons/ofxWaveHandler/src/ofxWaveHandler.h</file>
+				<file>../../../addons/ofxWaveHandler/src/ofxWaveHandler.cpp</file>
+            </folder>
+		</src>
+
+		<include>
+			<path>../../../addons/ofxWaveHandler/src</path>
+			<path>../../../addons/ofxWaveHandler/libs/libsndfile/include</path>
+		</include>
+
+		<link>
+			<lib os="win32" compiler="visualstudio">../../../addons/ofxWaveHandler/libs/libsndfile/lib/vs2010/libsndfile-1.lib</lib>
+			<lib os="mac"   compiler="xcode">../../../addons/ofxWaveHandler/libs/libsndfile/lib/osx/scUBlibsndfile.a</lib>
+		</link>
+	</add>
+</install>
