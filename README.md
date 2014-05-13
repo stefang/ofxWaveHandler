@@ -1,7 +1,7 @@
  ofxWaveHandler
  ==============
  
- Wrapper for libsndfile. Also does waveform generation etc... Created by Attila Fodor on 07/05/2014 - kevin@finecutbodies.com
+ Wrapper for libsndfile. Also does waveform generation etc... Created by Attila Fodor on 07/05/2014 - kevin@finecutbodies.com NOT FINISHED!
  
  STATUS REPORT:
  
